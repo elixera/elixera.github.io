@@ -5,11 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tiffany, Will You Be My Valentine? 💐</title>
   <style>
-    /* Added for better box-sizing on all elements */
-    * {
-      box-sizing: border-box;
-    }
-    
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Raleway:wght@300;500&display=swap');
     
     body {
@@ -164,31 +159,10 @@
       100% { transform: translateY(100vh) rotate(360deg); }
     }
 
-    /* Mobile-specific adjustments */
     @media (max-width: 600px) {
-      .container {
-        padding: 1rem;
-      }
-      h1 { 
-        font-size: 2rem; 
-      }
-      button { 
-        font-size: 1.2rem; 
-        padding: 0.8rem 1rem;
-      }
-      .gif { 
-        max-width: 90%;
-      }
-      /* A slightly subtler pulse on mobile so it doesn’t feel laggy */
-      #yesButton {
-        animation: pulseMobile 2s infinite;
-      }
-    }
-
-    @keyframes pulseMobile {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); }
+      h1 { font-size: 2rem; }
+      button { font-size: 1.2rem; }
+      .gif { max-width: 300px; }
     }
   </style>
 </head>
@@ -269,14 +243,6 @@
       "Just say yes, I promise it's worth it!"
     ];
 
-    // On mobile, adjust the initial button sizes for a better fit.
-    if (window.innerWidth <= 600) {
-      noButtonSize = 25;
-      yesButtonSize = 30;
-      document.getElementById('noButton').style.fontSize = noButtonSize + "px";
-      document.getElementById('yesButton').style.fontSize = yesButtonSize + "px";
-    }
-
     function createConfetti() {
       for (let i = 0; i < 50; i++) {
         const confetti = document.createElement('div');
@@ -319,7 +285,7 @@
           <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" 
                class="gif" 
                alt="Celebrating bears"
-               style="max-width: 500px; width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin: 2rem auto;">
+               style="max-width: 500px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin: 2rem auto;">
           <p style="font-size: 1.5rem; margin-top: 2rem;">
             I promise to make every day feel like Valentine's Day!<br>
             You're the best girl ever! 😘<br>
