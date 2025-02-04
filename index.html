@@ -21,7 +21,7 @@
     }
 
     .container {
-      padding: 2rem;
+      padding: 1rem; /* Reduced padding for compactness */
       max-width: 800px;
       animation: fadeIn 1s ease-in;
       text-align: center;
@@ -30,7 +30,7 @@
     h1 {
       font-family: 'Montserrat', sans-serif;
       font-size: 2.8rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem; /* Reduced bottom margin */
       letter-spacing: 1px;
       transform: rotate(-2deg);
       animation: float 3s ease-in-out infinite;
@@ -38,7 +38,7 @@
 
     .gif-container {
       position: relative;
-      margin: 2rem 0;
+      margin: 1rem 0; /* Reduced vertical margins */
       transition: transform 0.3s ease;
     }
 
@@ -58,14 +58,14 @@
     .buttons {
       display: flex;
       justify-content: center;
-      gap: 2rem;
+      gap: 1rem; /* Reduced gap between buttons */
       flex-wrap: wrap;
-      margin-top: 2rem;
+      margin-top: 1rem; /* Reduced top margin */
     }
 
     button {
       font-size: 1.5rem;
-      padding: 1rem 2rem;
+      padding: 0.8rem 1.5rem; /* Reduced padding */
       border: none;
       border-radius: 15px;
       cursor: pointer;
@@ -108,9 +108,9 @@
 
     #message {
       font-size: 1.2rem;
-      margin-top: 2rem;
-      min-height: 60px;
-      padding: 1rem;
+      margin-top: 1rem; /* Reduced top margin */
+      min-height: 40px; /* Reduced minimum height */
+      padding: 0.8rem; /* Reduced padding */
       background: rgba(255, 255, 255, 0.1);
       border-radius: 10px;
       animation: slideUp 0.5s ease;
@@ -159,10 +159,29 @@
       100% { transform: translateY(100vh) rotate(360deg); }
     }
 
+    /* Additional tweaks for small screens */
     @media (max-width: 600px) {
-      h1 { font-size: 2rem; }
-      button { font-size: 1.2rem; }
-      .gif { max-width: 300px; }
+      h1 { 
+        font-size: 2rem; 
+        margin-bottom: 0.8rem;
+      }
+      button { 
+        font-size: 1.2rem;
+        padding: 0.6rem 1rem;
+      }
+      .gif { 
+        max-width: 300px; 
+      }
+      .buttons {
+        gap: 0.8rem;
+        margin-top: 0.8rem;
+      }
+      #message {
+        font-size: 1rem;
+        margin-top: 0.8rem;
+        min-height: 30px;
+        padding: 0.6rem;
+      }
     }
   </style>
 </head>
@@ -285,8 +304,8 @@
           <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" 
                class="gif" 
                alt="Celebrating bears"
-               style="max-width: 500px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin: 2rem auto;">
-          <p style="font-size: 1.5rem; margin-top: 2rem;">
+               style="max-width: 500px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin: 1rem auto;">
+          <p style="font-size: 1.5rem; margin-top: 1rem;">
             I promise to make every day feel like Valentine's Day!<br>
             You're the best girl ever! 😘<br>
             <span style="font-size: 0.8rem;">(This tab must now remain open forever as proof)</span>
