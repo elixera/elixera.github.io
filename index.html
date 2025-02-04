@@ -21,24 +21,23 @@
     }
 
     .container {
-      padding: 1rem; /* Reduced padding for compactness */
+      padding: 1rem;
       max-width: 800px;
-      animation: fadeIn 1s ease-in;
+      animation: fadeIn 0.5s ease-in;
       text-align: center;
     }
 
     h1 {
       font-family: 'Montserrat', sans-serif;
       font-size: 2.8rem;
-      margin-bottom: 1rem; /* Reduced bottom margin */
+      margin-bottom: 1rem;
       letter-spacing: 1px;
       transform: rotate(-2deg);
       animation: float 3s ease-in-out infinite;
     }
 
     .gif-container {
-      position: relative;
-      margin: 1rem 0; /* Reduced vertical margins */
+      margin: 1rem 0;
       transition: transform 0.3s ease;
     }
 
@@ -55,48 +54,44 @@
       transform: rotate(0deg) scale(1.05);
     }
 
+    /* Buttons share the full width without extra gap */
     .buttons {
       display: flex;
-      justify-content: center;
-      gap: 1rem; /* Reduced gap between buttons */
-      flex-wrap: wrap;
-      margin-top: 1rem; /* Reduced top margin */
+      width: 100%;
     }
-
-    button {
-      font-size: 1.5rem;
-      padding: 0.8rem 1.5rem; /* Reduced padding */
+    
+    /* Remove min-width and let JS control the widths via inline style */
+    .buttons button {
       border: none;
       border-radius: 15px;
       cursor: pointer;
       transition: all 0.3s ease;
-      min-width: 150px;
       font-family: 'Montserrat', sans-serif;
       letter-spacing: 1px;
+      padding: 1rem 0; /* vertical padding only */
+      font-size: 1.5rem;
     }
 
     #yesButton {
       background: linear-gradient(145deg, #4CAF50, #45a049);
       color: white;
-      transform: scale(1);
       box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
       animation: pulse 2s infinite;
     }
 
     #yesButton:hover {
-      transform: scale(1.1);
+      transform: scale(1.05);
       box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
     }
 
     #noButton {
       background: linear-gradient(145deg, #ff4444, #cc0000);
       color: white;
-      position: relative;
       box-shadow: 0 5px 15px rgba(255, 68, 68, 0.4);
     }
 
     #noButton:hover:not(.broken) {
-      transform: scale(0.95);
+      transform: scale(0.98);
       box-shadow: 0 3px 10px rgba(255, 68, 68, 0.3);
     }
 
@@ -108,9 +103,9 @@
 
     #message {
       font-size: 1.2rem;
-      margin-top: 1rem; /* Reduced top margin */
-      min-height: 40px; /* Reduced minimum height */
-      padding: 0.8rem; /* Reduced padding */
+      margin-top: 1rem;
+      min-height: 40px;
+      padding: 0.8rem;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 10px;
       animation: slideUp 0.5s ease;
@@ -159,28 +154,23 @@
       100% { transform: translateY(100vh) rotate(360deg); }
     }
 
-    /* Additional tweaks for small screens */
     @media (max-width: 600px) {
       h1 { 
         font-size: 2rem; 
         margin-bottom: 0.8rem;
       }
-      button { 
-        font-size: 1.2rem;
-        padding: 0.6rem 1rem;
-      }
       .gif { 
         max-width: 300px; 
-      }
-      .buttons {
-        gap: 0.8rem;
-        margin-top: 0.8rem;
       }
       #message {
         font-size: 1rem;
         margin-top: 0.8rem;
         min-height: 30px;
         padding: 0.6rem;
+      }
+      .buttons button {
+        font-size: 1.2rem;
+        padding: 0.8rem 0;
       }
     }
   </style>
@@ -192,18 +182,19 @@
       <img id="gif" src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif" class="gif" alt="Cute bear holding roses">
     </div>
     <div class="buttons">
-      <button id="yesButton" onclick="sayYes()" aria-label="Yes">YES! 😍</button>
-      <button id="noButton" onclick="sayNo()" aria-label="No">No 😢</button>
+      <!-- Both buttons start with 50% width -->
+      <button id="yesButton" onclick="sayYes()" aria-label="Yes" style="width:50%;">YES! 😍</button>
+      <button id="noButton" onclick="sayNo()" aria-label="No" style="width:50%;">No 😢</button>
     </div>
     <p id="message"></p>
   </div>
 
   <script>
     let messageIndex = 0;
-    let noButtonSize = 30; // in pixels
-    let yesButtonSize = 35; // in pixels
+    let yesWidthPercentage = 50; // Start with equal widths
+    const widthIncrement = 0.5;  // Increase yes by 0.5% per "no" press
     let noBroken = false;
-    let messages = [
+    const messages = [
       "Are you sure?",
       "What if I asked really nicely?",
       "Pretty please?",
@@ -275,18 +266,20 @@
 
     function sayNo() {
       const noButton = document.getElementById('noButton');
+      const yesButton = document.getElementById('yesButton');
       if (noBroken) return;
       
+      // Update the message text from the array
       document.getElementById('message').textContent = messages[messageIndex];
       messageIndex++;
       
-      noButton.style.transform = 'scale(0.9)';
-      setTimeout(() => { noButton.style.transform = 'scale(1)'; }, 200);
+      // Increase the "Yes" button's share by a tiny amount and reduce "No" accordingly.
+      // Here we cap the "Yes" button at 80% (so "No" is always at least 20%)
+      yesWidthPercentage = Math.min(yesWidthPercentage + widthIncrement, 80);
+      const noWidthPercentage = 100 - yesWidthPercentage;
       
-      noButtonSize = Math.max(10, noButtonSize - 0.2);
-      yesButtonSize += 5;
-      noButton.style.fontSize = noButtonSize + "px";
-      document.getElementById('yesButton').style.fontSize = yesButtonSize + "px";
+      yesButton.style.width = yesWidthPercentage + '%';
+      noButton.style.width = noWidthPercentage + '%';
       
       if (messageIndex >= messages.length) {
         noButton.classList.add('broken');
@@ -298,14 +291,15 @@
 
     function sayYes() {
       createConfetti();
+      // More compact layout for the "Yes" screen
       document.body.innerHTML = `
-        <div class="container" style="text-align: center;">
-          <h1 style="font-size: 3rem; animation: float 2s infinite;">YAY! 💖 I knew you'd say yes! MUAH!</h1>
+        <div class="container" style="padding: 0.5rem; text-align: center;">
+          <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; animation: float 2s infinite;">YAY! 💖 I knew you'd say yes! MUAH!</h1>
           <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" 
                class="gif" 
                alt="Celebrating bears"
-               style="max-width: 500px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin: 1rem auto;">
-          <p style="font-size: 1.5rem; margin-top: 1rem;">
+               style="max-width: 300px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin: 0.5rem auto;">
+          <p style="font-size: 1.2rem; margin-top: 0.5rem;">
             I promise to make every day feel like Valentine's Day!<br>
             You're the best girl ever! 😘<br>
             <span style="font-size: 0.8rem;">(This tab must now remain open forever as proof)</span>
